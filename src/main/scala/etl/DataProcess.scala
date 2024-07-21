@@ -37,16 +37,6 @@ object DataProcess {
     val transformedDF = cleanedDF
       .withColumn("Sales_Per_Quantity", col("UnitPrice"))
 
-    println("Product Aggregations:")
-    productAggregations.show()
-
-    println("Country Aggregations:")
-    countryAggregations.show()
-
-    monthlySales.show()
-
-    println("Transformed Data:")
-    transformedDF.show()
 
     transformedDF
   }
@@ -58,14 +48,13 @@ object DataProcess {
       .groupBy("Month")
       .agg(
         sum(col("UnitPrice") * col("Quantity")).as("Total_Monthly_Sales"),
-        countDistinct(col("InvoiceNo")).as("Distinct_Invoices")
+        countDistinct(col("InvoiceNo")).as("Invoice_Count")
       )
       .withColumn("Average_Monthly_Revenue_Per_Invoice",
-        col("Total_Monthly_Sales") / col("Distinct_Invoices")
+        col("Total_Monthly_Sales") / col("Invoice_Count")
       )
       .orderBy("Month")
 
-    println("Monthly Sales with Average Monthly Revenue per Invoice:")
     monthlySales.show()
 
     monthlySales

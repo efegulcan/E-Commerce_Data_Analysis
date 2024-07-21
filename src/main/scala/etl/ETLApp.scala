@@ -52,8 +52,6 @@ object ETLApp {
     renameFile(tempProcessedDataPath, finalProcessedDataPath)
     renameFile("data/output/temp_monthly_sales", monthlySalesOutputPath)
 
-    println("ETL Process Completed Successfully!")
-
     spark.stop()
   }
 }
